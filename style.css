@@ -1,239 +1,727 @@
 
-const questions = [
-    {
-        question: "Co jsou výstupní periferie a k čemu slouží?",
-        answer: "Jsou to zařízení, která předávají informace z počítače uživateli. Patří mezi ně například monitor, tiskárna, projektor a reproduktory."
-    },
-    {
-        question: "K čemu slouží monitor a jaké informace nám zobrazuje?",
-        answer: "Monitor zobrazuje vizuální výstup počítače, například text, obrázky, video nebo prostředí operačního systému."
-    },
-    {
-        question: "Jaký je rozdíl mezi CRT a LCD monitorem?",
-        answer: "CRT monitor vytváří obraz pomocí elektronového paprsku a je hluboký a těžký. LCD monitor využívá tekuté krystaly a má plošší konstrukci."
-    },
-    {
-        question: "Co znamená označení LED u monitorů?",
-        answer: "LED označuje světelné diody. U běžných LED monitorů se diody používají jako podsvícení LCD panelu."
-    },
-    {
-        question: "Co znamená rozlišení monitoru a jak se udává?",
-        answer: "Rozlišení udává počet obrazových bodů, ze kterých se skládá obraz. Zapisuje se například 1920 × 1080 pixelů."
-    },
-    {
-        question: "K čemu slouží projektor a kdy se používá?",
-        answer: "Projektor promítá obraz z počítače nebo jiného zařízení na plátno či stěnu. Používá se například ve školách, na přednáškách a při prezentacích."
-    },
-    {
-        question: "Jak funguje jehličková tiskárna?",
-        answer: "Jehličky narážejí přes barvicí pásku na papír a vytvářejí text nebo obrázky z jednotlivých bodů. Tento způsob tisku je mechanický."
-    },
-    {
-        question: "Jak funguje inkoustová tiskárna a co při tisku používá?",
-        answer: "Vytváří text a obrázky vystřikováním drobných kapek tekutého inkoustu na papír. Používá inkoustové náplně."
-    },
-    {
-        question: "Jak funguje laserová tiskárna?",
-        answer: "Laser pomáhá vytvořit obraz na světlocitlivém válci. Toner se přenese na papír a pomocí tepla se na něm upevní."
-    },
-    {
-        question: "Jaký je hlavní rozdíl mezi inkoustovou a laserovou tiskárnou?",
-        answer: "Inkoustová tiskárna používá tekutý inkoust, zatímco laserová používá práškový toner. Liší se také rychlostí tisku, provozem a vhodným použitím."
-    },
-    {
-        question: "K čemu slouží reproduktory a jak fungují?",
-        answer: "Reproduktory převádějí elektrický zvukový signál na zvuk, který slyšíme. Používají se například pro hudbu, videa a zvuk počítačových aplikací."
-    },
-    {
-        question: "Jaký je rozdíl mezi reproduktory a sluchátky?",
-        answer: "Reproduktory přehrávají zvuk do okolí, zatímco sluchátka přivádějí zvuk přímo k uším posluchače."
-    },
-    {
-        question: "Jak se výstupní periferie postupně vyvíjely?",
-        answer: "Zařízení se postupně měnila, aby nabízela pohodlnější používání a lepší výsledky. Například objemné CRT monitory nahradily plošší displeje a technologie tisku se rozšířily o inkoustový a laserový tisk."
-    },
-    {
-        question: "Kterou tiskárnu byste vybrali pro domácí tisk fotografií a proč?",
-        answer: "Vhodnou volbou může být inkoustová tiskárna, protože některé modely dokážou kvalitně tisknout barevné fotografie. Záleží také na konkrétním modelu a ceně provozu."
-    },
-    {
-        question: "Vyjmenujte alespoň čtyři výstupní periferie a vysvětlete, k čemu slouží.",
-        answer: "Například monitor zobrazuje obraz, tiskárna tiskne na papír, projektor promítá obraz na plátno a reproduktory přehrávají zvuk."
-    }
-];
-
-const cardsBox = document.getElementById("cards");
-const questionBox = document.getElementById("questionBox");
-const finishBox = document.getElementById("finishBox");
-
-const questionNumber = document.getElementById("questionNumber");
-const questionText = document.getElementById("question");
-const answerText = document.getElementById("answer");
-const answerBox = document.getElementById("answerBox");
-
-const showAnswerButton = document.getElementById("showAnswer");
-const correctButton = document.getElementById("correct");
-const wrongButton = document.getElementById("wrong");
-const backButton = document.getElementById("back");
-const restartButton = document.getElementById("restart");
-
-const scoreText = document.getElementById("score");
-const remainingText = document.getElementById("remaining");
-const finalScoreText = document.getElementById("finalScore");
-const resultMessage = document.getElementById("resultMessage");
-const progressBar = document.getElementById("progressBar");
-
-let score = 0;
-let currentId = null;
-let answered = new Set();
-
-function createCards() {
-    cardsBox.innerHTML = "";
-
-    questions.forEach((item, id) => {
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = "card";
-        card.dataset.id = id;
-
-        const number = document.createElement("span");
-        number.className = "card-number";
-        number.textContent = String(id + 1).padStart(2, "0");
-
-        const title = document.createElement("span");
-        title.className = "card-title";
-        title.textContent = [
-            "Základy", "Monitory", "CRT a LCD", "LED displeje",
-            "Rozlišení", "Projektory", "Jehličkový tisk",
-            "Inkoustový tisk", "Laserový tisk", "Typy tisku",
-            "Reproduktory", "Sluchátka", "Vývoj", "Praxe",
-            "Opakování"
-        ][id] || `Otázka ${id + 1}`;
-
-        const bottom = document.createElement("span");
-        bottom.className = "card-bottom";
-
-        const label = document.createElement("span");
-        label.textContent = "Otevřít otázku";
-
-        const arrow = document.createElement("span");
-        arrow.textContent = "↗";
-        arrow.setAttribute("aria-hidden", "true");
-
-        bottom.append(label, arrow);
-        card.append(number, title, bottom);
-
-        card.addEventListener("click", () => openCard(id));
-        cardsBox.appendChild(card);
-    });
+:root {
+  --background: #f5f6f8;
+  --surface: #ffffff;
+  --text: #20242d;
+  --muted: #777f8d;
+  --line: #e6e8ed;
+  --blue: #315be8;
+  --blue-dark: #2447c4;
+  --blue-light: #eef2ff;
+  --green: #18794e;
+  --green-light: #e9f7ef;
+  --red: #b83a45;
+  --red-light: #fff0f0;
+  --radius: 16px;
+  --shadow: 0 8px 30px rgba(28, 39, 70, 0.045);
 }
 
-function updateInfo() {
-    scoreText.innerHTML = `${score} <span>/ ${questions.length}</span>`;
-    remainingText.textContent = questions.length - answered.size;
-
-    const progress = (answered.size / questions.length) * 100;
-    progressBar.style.width = `${progress}%`;
+* {
+  box-sizing: border-box;
 }
 
-function openCard(id) {
-    if (answered.has(id)) return;
-
-    currentId = id;
-
-    questionNumber.textContent =
-        `OTÁZKA ${String(id + 1).padStart(2, "0")} / ${questions.length}`;
-
-    questionText.textContent = questions[id].question;
-    answerText.textContent = questions[id].answer;
-
-    answerBox.classList.add("hidden");
-    showAnswerButton.classList.remove("hidden");
-
-    cardsBox.classList.add("hidden");
-    finishBox.classList.add("hidden");
-    questionBox.classList.remove("hidden");
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+html {
+  scroll-behavior: smooth;
 }
 
-function showAnswer() {
-    answerBox.classList.remove("hidden");
-    showAnswerButton.classList.add("hidden");
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-function markAnswer(isCorrect) {
-    if (currentId === null || answered.has(currentId)) return;
-
-    if (isCorrect) {
-        score++;
-    }
-
-    answered.add(currentId);
-
-    const card = cardsBox.querySelector(`[data-id="${currentId}"]`);
-
-    if (card) {
-        card.classList.add("used");
-        card.disabled = true;
-        card.setAttribute("aria-label", `Otázka ${currentId + 1}, již zodpovězena`);
-    }
-
-    updateInfo();
-
-    questionBox.classList.add("hidden");
-
-    if (answered.size === questions.length) {
-        showFinish();
-    } else {
-        cardsBox.classList.remove("hidden");
-    }
-
-    currentId = null;
+button,
+a {
+  font: inherit;
 }
 
-function showFinish() {
-    finalScoreText.textContent = `${score} / ${questions.length}`;
-
-    if (score === questions.length) {
-        resultMessage.textContent = "Výborně! Zvládli jste všechny otázky.";
-    } else if (score >= questions.length * 0.7) {
-        resultMessage.textContent = "Skvělá práce! Máte dobrý přehled.";
-    } else if (score >= questions.length * 0.4) {
-        resultMessage.textContent = "Dobrý začátek. Některé otázky stojí za zopakování.";
-    } else {
-        resultMessage.textContent = "Zkuste si projít prezentaci a zahrát si znovu.";
-    }
-
-    finishBox.classList.remove("hidden");
+button {
+  cursor: pointer;
 }
 
-function goBack() {
-    questionBox.classList.add("hidden");
-    cardsBox.classList.remove("hidden");
-    currentId = null;
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #9aafff;
+  outline-offset: 3px;
 }
 
-function restartQuiz() {
-    score = 0;
-    currentId = null;
-    answered.clear();
-
-    finishBox.classList.add("hidden");
-    questionBox.classList.add("hidden");
-    cardsBox.classList.remove("hidden");
-
-    createCards();
-    updateInfo();
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+.site-header {
+  height: 72px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--line);
 }
 
-showAnswerButton.addEventListener("click", showAnswer);
-correctButton.addEventListener("click", () => markAnswer(true));
-wrongButton.addEventListener("click", () => markAnswer(false));
-backButton.addEventListener("click", goBack);
-restartButton.addEventListener("click", restartQuiz);
+.header-inner {
+  width: min(1160px, calc(100% - 48px));
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-createCards();
-updateInfo();
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--blue);
+  color: white;
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+}
+
+.brand-muted {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.header-label {
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: #5c6472;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.page {
+  width: min(1160px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.intro {
+  padding: 54px 0 35px;
+  max-width: 760px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin: 17px 0 15px;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.12;
+  letter-spacing: -2.5px;
+  font-weight: 800;
+}
+
+.title-dot {
+  color: var(--blue);
+}
+
+.intro-text {
+  max-width: 640px;
+  margin-bottom: 22px;
+  color: #626a78;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.intro-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 13px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.intro-meta strong {
+  color: var(--text);
+}
+
+.meta-separator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #c0c5ce;
+}
+
+.quiz-layout {
+  display: grid;
+  grid-template-columns: 265px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.sidebar {
+  display: grid;
+  gap: 16px;
+}
+
+.score-card,
+.question-nav,
+.question-card,
+.finish-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.score-card {
+  padding: 22px;
+}
+
+.card-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.score-line {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 6px 0 13px;
+}
+
+.score-line #score {
+  font-family: "Manrope", sans-serif;
+  font-size: 39px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.2;
+}
+
+.score-total {
+  color: #9aa1ad;
+  font-size: 14px;
+}
+
+.score-track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #edf0f5;
+}
+
+.score-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+  transition: width 0.25s ease;
+}
+
+#score-caption {
+  margin: 11px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.question-nav {
+  padding: 19px 16px;
+}
+
+.nav-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 2px 13px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#nav-count {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.question-list {
+  display: grid;
+  gap: 5px;
+}
+
+.question-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #697180;
+  text-align: left;
+  font-size: 12px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.question-link:hover {
+  background: #f5f7fb;
+  color: var(--text);
+}
+
+.question-link.active {
+  border-color: #dce4ff;
+  background: var(--blue-light);
+  color: var(--blue-dark);
+  font-weight: 700;
+}
+
+.question-link.answered .question-link-number {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.question-link-number {
+  display: grid;
+  flex: 0 0 26px;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: #f0f2f6;
+  color: #737c8b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.question-link-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-column {
+  min-width: 0;
+}
+
+.question-card {
+  min-height: 435px;
+  padding: 27px 30px 0;
+}
+
+.question-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.category-tag {
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: var(--blue-light);
+  color: var(--blue-dark);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.question-number {
+  color: #8a92a0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+}
+
+.question-content {
+  padding: 30px 0 24px;
+}
+
+.question-symbol {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  margin-bottom: 19px;
+  border: 1px solid #dfe5ff;
+  border-radius: 12px;
+  background: #f5f7ff;
+  color: var(--blue);
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.question-content h2,
+.finish-panel h2 {
+  margin-bottom: 12px;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(22px, 3vw, 29px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.35;
+}
+
+.question-content p {
+  max-width: 650px;
+  margin-bottom: 0;
+  color: #737b89;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.answer-area {
+  padding: 0 0 28px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.15s, transform 0.15s, border-color 0.15s;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.button-primary {
+  background: var(--blue);
+  color: white;
+}
+
+.button-primary:hover:not(:disabled) {
+  background: var(--blue-dark);
+}
+
+.button-secondary {
+  border-color: var(--line);
+  background: white;
+  color: #626b79;
+}
+
+.button-secondary:hover:not(:disabled) {
+  border-color: #c7cdd7;
+  background: #f8f9fb;
+}
+
+.answer-panel {
+  margin-top: 23px;
+  padding: 19px;
+  border: 1px solid #dcefe3;
+  border-radius: 12px;
+  background: #f8fcf9;
+  animation: appear 0.2s ease;
+}
+
+.answer-panel[hidden],
+.finish-panel[hidden] {
+  display: none;
+}
+
+.answer-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.answer-check {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #dff4e7;
+}
+
+#answer-text {
+  margin: 13px 0 19px;
+  color: #39483e;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.answer-actions {
+  padding-top: 16px;
+  border-top: 1px solid #e1eee5;
+}
+
+.answer-actions > p {
+  margin-bottom: 12px;
+  color: #626b66;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.answer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.button-correct {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.button-correct:hover {
+  background: #d6f0e0;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  color: #9299a5;
+  font-size: 10px;
+}
+
+.bottom-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 17px;
+}
+
+#position-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.finish-panel {
+  margin-top: 24px;
+  padding: 35px;
+  text-align: center;
+}
+
+.finish-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 18px;
+  border-radius: 16px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 23px;
+}
+
+.finish-panel .eyebrow {
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.finish-panel h2 {
+  font-size: 32px;
+}
+
+.finish-panel > p {
+  color: var(--muted);
+}
+
+.finish-stats {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 25px 0;
+}
+
+.finish-stats div {
+  display: grid;
+  gap: 4px;
+}
+
+.finish-stats strong {
+  font-family: "Manrope", sans-serif;
+  font-size: 25px;
+}
+
+.finish-stats span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 48px;
+  padding: 20px 0 25px;
+  border-top: 1px solid var(--line);
+  color: #8b929e;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+}
+
+.footer-dot {
+  color: var(--blue);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 850px) {
+  .quiz-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .question-nav {
+    padding: 16px;
+  }
+
+  .question-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .question-link {
+    padding: 7px;
+  }
+
+  .question-link-title {
+    font-size: 11px;
+  }
+
+  .intro {
+    padding-top: 38px;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    height: 62px;
+  }
+
+  .header-inner,
+  .page {
+    width: calc(100% - 30px);
+  }
+
+  .header-label {
+    font-size: 10px;
+  }
+
+  .intro {
+    padding: 32px 0 25px;
+  }
+
+  h1 {
+    font-size: 37px;
+    letter-spacing: -1.7px;
+  }
+
+  .intro-text {
+    font-size: 14px;
+  }
+
+  .intro-meta {
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  .question-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .question-card {
+    padding: 20px 18px 0;
+  }
+
+  .question-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .question-content {
+    padding-top: 23px;
+  }
+
+  .question-content h2 {
+    font-size: 23px;
+  }
+
+  .bottom-navigation .button {
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+
+  .finish-panel {
+    padding: 25px 17px;
+  }
+
+  .finish-stats {
+    gap: 30px;
+  }
+
+  .site-footer {
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
