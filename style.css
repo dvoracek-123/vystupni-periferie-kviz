@@ -1,209 +1,239 @@
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+const questions = [
+    {
+        question: "Co jsou výstupní periferie a k čemu slouží?",
+        answer: "Jsou to zařízení, která předávají informace z počítače uživateli. Patří mezi ně například monitor, tiskárna, projektor a reproduktory."
+    },
+    {
+        question: "K čemu slouží monitor a jaké informace nám zobrazuje?",
+        answer: "Monitor zobrazuje vizuální výstup počítače, například text, obrázky, video nebo prostředí operačního systému."
+    },
+    {
+        question: "Jaký je rozdíl mezi CRT a LCD monitorem?",
+        answer: "CRT monitor vytváří obraz pomocí elektronového paprsku a je hluboký a těžký. LCD monitor využívá tekuté krystaly a má plošší konstrukci."
+    },
+    {
+        question: "Co znamená označení LED u monitorů?",
+        answer: "LED označuje světelné diody. U běžných LED monitorů se diody používají jako podsvícení LCD panelu."
+    },
+    {
+        question: "Co znamená rozlišení monitoru a jak se udává?",
+        answer: "Rozlišení udává počet obrazových bodů, ze kterých se skládá obraz. Zapisuje se například 1920 × 1080 pixelů."
+    },
+    {
+        question: "K čemu slouží projektor a kdy se používá?",
+        answer: "Projektor promítá obraz z počítače nebo jiného zařízení na plátno či stěnu. Používá se například ve školách, na přednáškách a při prezentacích."
+    },
+    {
+        question: "Jak funguje jehličková tiskárna?",
+        answer: "Jehličky narážejí přes barvicí pásku na papír a vytvářejí text nebo obrázky z jednotlivých bodů. Tento způsob tisku je mechanický."
+    },
+    {
+        question: "Jak funguje inkoustová tiskárna a co při tisku používá?",
+        answer: "Vytváří text a obrázky vystřikováním drobných kapek tekutého inkoustu na papír. Používá inkoustové náplně."
+    },
+    {
+        question: "Jak funguje laserová tiskárna?",
+        answer: "Laser pomáhá vytvořit obraz na světlocitlivém válci. Toner se přenese na papír a pomocí tepla se na něm upevní."
+    },
+    {
+        question: "Jaký je hlavní rozdíl mezi inkoustovou a laserovou tiskárnou?",
+        answer: "Inkoustová tiskárna používá tekutý inkoust, zatímco laserová používá práškový toner. Liší se také rychlostí tisku, provozem a vhodným použitím."
+    },
+    {
+        question: "K čemu slouží reproduktory a jak fungují?",
+        answer: "Reproduktory převádějí elektrický zvukový signál na zvuk, který slyšíme. Používají se například pro hudbu, videa a zvuk počítačových aplikací."
+    },
+    {
+        question: "Jaký je rozdíl mezi reproduktory a sluchátky?",
+        answer: "Reproduktory přehrávají zvuk do okolí, zatímco sluchátka přivádějí zvuk přímo k uším posluchače."
+    },
+    {
+        question: "Jak se výstupní periferie postupně vyvíjely?",
+        answer: "Zařízení se postupně měnila, aby nabízela pohodlnější používání a lepší výsledky. Například objemné CRT monitory nahradily plošší displeje a technologie tisku se rozšířily o inkoustový a laserový tisk."
+    },
+    {
+        question: "Kterou tiskárnu byste vybrali pro domácí tisk fotografií a proč?",
+        answer: "Vhodnou volbou může být inkoustová tiskárna, protože některé modely dokážou kvalitně tisknout barevné fotografie. Záleží také na konkrétním modelu a ceně provozu."
+    },
+    {
+        question: "Vyjmenujte alespoň čtyři výstupní periferie a vysvětlete, k čemu slouží.",
+        answer: "Například monitor zobrazuje obraz, tiskárna tiskne na papír, projektor promítá obraz na plátno a reproduktory přehrávají zvuk."
+    }
+];
+
+const cardsBox = document.getElementById("cards");
+const questionBox = document.getElementById("questionBox");
+const finishBox = document.getElementById("finishBox");
+
+const questionNumber = document.getElementById("questionNumber");
+const questionText = document.getElementById("question");
+const answerText = document.getElementById("answer");
+const answerBox = document.getElementById("answerBox");
+
+const showAnswerButton = document.getElementById("showAnswer");
+const correctButton = document.getElementById("correct");
+const wrongButton = document.getElementById("wrong");
+const backButton = document.getElementById("back");
+const restartButton = document.getElementById("restart");
+
+const scoreText = document.getElementById("score");
+const remainingText = document.getElementById("remaining");
+const finalScoreText = document.getElementById("finalScore");
+const resultMessage = document.getElementById("resultMessage");
+const progressBar = document.getElementById("progressBar");
+
+let score = 0;
+let currentId = null;
+let answered = new Set();
+
+function createCards() {
+    cardsBox.innerHTML = "";
+
+    questions.forEach((item, id) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "card";
+        card.dataset.id = id;
+
+        const number = document.createElement("span");
+        number.className = "card-number";
+        number.textContent = String(id + 1).padStart(2, "0");
+
+        const title = document.createElement("span");
+        title.className = "card-title";
+        title.textContent = [
+            "Základy", "Monitory", "CRT a LCD", "LED displeje",
+            "Rozlišení", "Projektory", "Jehličkový tisk",
+            "Inkoustový tisk", "Laserový tisk", "Typy tisku",
+            "Reproduktory", "Sluchátka", "Vývoj", "Praxe",
+            "Opakování"
+        ][id] || `Otázka ${id + 1}`;
+
+        const bottom = document.createElement("span");
+        bottom.className = "card-bottom";
+
+        const label = document.createElement("span");
+        label.textContent = "Otevřít otázku";
+
+        const arrow = document.createElement("span");
+        arrow.textContent = "↗";
+        arrow.setAttribute("aria-hidden", "true");
+
+        bottom.append(label, arrow);
+        card.append(number, title, bottom);
+
+        card.addEventListener("click", () => openCard(id));
+        cardsBox.appendChild(card);
+    });
 }
 
-body {
-    min-height: 100vh;
-    background: #0f172a;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 40px 20px;
+function updateInfo() {
+    scoreText.innerHTML = `${score} <span>/ ${questions.length}</span>`;
+    remainingText.textContent = questions.length - answered.size;
+
+    const progress = (answered.size / questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
 }
 
-h1 {
-    font-size: 40px;
-    margin-bottom: 10px;
+function openCard(id) {
+    if (answered.has(id)) return;
+
+    currentId = id;
+
+    questionNumber.textContent =
+        `OTÁZKA ${String(id + 1).padStart(2, "0")} / ${questions.length}`;
+
+    questionText.textContent = questions[id].question;
+    answerText.textContent = questions[id].answer;
+
+    answerBox.classList.add("hidden");
+    showAnswerButton.classList.remove("hidden");
+
+    cardsBox.classList.add("hidden");
+    finishBox.classList.add("hidden");
+    questionBox.classList.remove("hidden");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-.subtitle {
-    color: #94a3b8;
-    font-size: 18px;
-    margin-bottom: 30px;
+function showAnswer() {
+    answerBox.classList.remove("hidden");
+    showAnswerButton.classList.add("hidden");
 }
 
-.info {
-    max-width: 900px;
-    margin: 0 auto 25px;
-    padding: 15px 20px;
-    background: #1e293b;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-}
+function markAnswer(isCorrect) {
+    if (currentId === null || answered.has(currentId)) return;
 
-.info span {
-    color: #cbd5e1;
-}
-
-.info strong {
-    color: #38bdf8;
-    font-size: 20px;
-}
-
-/* KARTY */
-
-.cards {
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-}
-
-.card {
-    height: 150px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.card:hover {
-    background: #3b82f6;
-    transform: translateY(-5px);
-}
-
-.card.used {
-    background: #334155;
-    opacity: 0.4;
-    cursor: default;
-}
-
-.card.used:hover {
-    transform: none;
-}
-
-/* OTÁZKA */
-
-.question-box {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #1e293b;
-    padding: 40px;
-    border-radius: 20px;
-}
-
-#questionNumber {
-    color: #38bdf8;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-#question {
-    font-size: 28px;
-    line-height: 1.4;
-    margin-bottom: 30px;
-}
-
-/* TLAČÍTKA */
-
-button {
-    font-family: Arial, sans-serif;
-}
-
-#showAnswer,
-#correct,
-#wrong,
-#back,
-#restart {
-    border: none;
-    border-radius: 10px;
-    padding: 13px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-#showAnswer {
-    background: #38bdf8;
-    color: #082f49;
-}
-
-#correct {
-    background: #22c55e;
-    color: #052e16;
-}
-
-#wrong {
-    background: #ef4444;
-    color: white;
-}
-
-#back {
-    background: #475569;
-    color: white;
-    margin-top: 20px;
-}
-
-#restart {
-    background: #38bdf8;
-    color: #082f49;
-    margin-top: 20px;
-}
-
-#showAnswer:hover,
-#correct:hover,
-#wrong:hover,
-#back:hover,
-#restart:hover {
-    opacity: 0.85;
-    transform: translateY(-2px);
-}
-
-/* ODPOVĚĎ */
-
-#answerBox {
-    margin-top: 25px;
-    padding-top: 25px;
-    border-top: 1px solid #475569;
-}
-
-#answer {
-    color: #cbd5e1;
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-/* SKRYTÉ */
-
-.hidden {
-    display: none;
-}
-
-/* MOBIL */
-
-@media (max-width: 700px) {
-    body {
-        padding: 25px 15px;
+    if (isCorrect) {
+        score++;
     }
 
-    h1 {
-        font-size: 30px;
+    answered.add(currentId);
+
+    const card = cardsBox.querySelector(`[data-id="${currentId}"]`);
+
+    if (card) {
+        card.classList.add("used");
+        card.disabled = true;
+        card.setAttribute("aria-label", `Otázka ${currentId + 1}, již zodpovězena`);
     }
 
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+    updateInfo();
+
+    questionBox.classList.add("hidden");
+
+    if (answered.size === questions.length) {
+        showFinish();
+    } else {
+        cardsBox.classList.remove("hidden");
     }
 
-    .card {
-        height: 120px;
-    }
-
-    .question-box {
-        padding: 25px 15px;
-    }
-
-    #question {
-        font-size: 22px;
-    }
+    currentId = null;
 }
+
+function showFinish() {
+    finalScoreText.textContent = `${score} / ${questions.length}`;
+
+    if (score === questions.length) {
+        resultMessage.textContent = "Výborně! Zvládli jste všechny otázky.";
+    } else if (score >= questions.length * 0.7) {
+        resultMessage.textContent = "Skvělá práce! Máte dobrý přehled.";
+    } else if (score >= questions.length * 0.4) {
+        resultMessage.textContent = "Dobrý začátek. Některé otázky stojí za zopakování.";
+    } else {
+        resultMessage.textContent = "Zkuste si projít prezentaci a zahrát si znovu.";
+    }
+
+    finishBox.classList.remove("hidden");
+}
+
+function goBack() {
+    questionBox.classList.add("hidden");
+    cardsBox.classList.remove("hidden");
+    currentId = null;
+}
+
+function restartQuiz() {
+    score = 0;
+    currentId = null;
+    answered.clear();
+
+    finishBox.classList.add("hidden");
+    questionBox.classList.add("hidden");
+    cardsBox.classList.remove("hidden");
+
+    createCards();
+    updateInfo();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+showAnswerButton.addEventListener("click", showAnswer);
+correctButton.addEventListener("click", () => markAnswer(true));
+wrongButton.addEventListener("click", () => markAnswer(false));
+backButton.addEventListener("click", goBack);
+restartButton.addEventListener("click", restartQuiz);
+
+createCards();
+updateInfo();
