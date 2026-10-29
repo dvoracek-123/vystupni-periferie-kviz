@@ -6,39 +6,39 @@ const questions = [
     },
     {
         question: "Jak se v průběhu času změnily počítačové monitory?",
-        answer: "Starší monitory používaly technologii CRT a byly velké a těžké. Později se rozšířily plošší LCD monitory a další moderní technologie."
+        answer: "Starší monitory používaly technologii CRT, byly velké a těžké. Později se rozšířily plošší LCD monitory a další moderní technologie."
     },
     {
         question: "Jaký je rozdíl mezi CRT a LCD monitorem?",
-        answer: "CRT monitor využívá obrazovku s elektronovým paprskem a je objemný. LCD monitor vytváří obraz pomocí tekutých krystalů a je mnohem plošší."
+        answer: "CRT monitor využívá elektronový paprsek a má velkou obrazovku. LCD monitor využívá tekuté krystaly a má mnohem plošnější konstrukci."
     },
     {
         question: "Jak funguje jehličková tiskárna?",
-        answer: "Tiskne pomocí malých jehliček, které přes barvicí pásku vytvářejí na papíře jednotlivé body."
+        answer: "Jehličky narážejí přes barvicí pásku na papír a vytvářejí obraz z jednotlivých bodů."
     },
     {
-        question: "Kdo a kdy přišel s principem jehličkového tisku?",
-        answer: "Jedním z průkopníků jehličkového tisku byla společnost Epson, která v roce 1968 představila tiskárnu EP-101. Později se rozšířily jehličkové tiskárny pro počítače."
+        question: "Kdy a čím přispěla společnost Epson k vývoji tiskáren?",
+        answer: "Společnost Epson představila v roce 1968 tiskárnu EP-101. Patřila mezi důležité milníky vývoje menších tiskáren."
     },
     {
         question: "Jak funguje inkoustová tiskárna?",
-        answer: "Vystřikuje drobné kapky inkoustu na papír a skládá z nich text nebo obrázek."
+        answer: "Vystřikuje na papír drobné kapky inkoustu, ze kterých vzniká text nebo obrázek."
     },
     {
         question: "Jak funguje laserová tiskárna?",
-        answer: "Pomocí laseru vytvoří obraz na světlocitlivém válci. Toner se přenese na papír a následně se teplem upevní."
+        answer: "Laser vytvoří obraz na světlocitlivém válci. Toner se přenese na papír a následně se upevní pomocí tepla."
     },
     {
         question: "Jaký je hlavní rozdíl mezi inkoustovou a laserovou tiskárnou?",
         answer: "Inkoustová tiskárna používá tekutý inkoust, zatímco laserová tiskárna používá práškový toner."
     },
     {
-        question: "K čemu slouží reproduktory a jaký signál převádějí?",
-        answer: "Reproduktory slouží k přehrávání zvuku. Elektrický zvukový signál převádějí na zvuk, který slyšíme."
+        question: "K čemu slouží reproduktory a jak fungují?",
+        answer: "Reproduktory převádějí elektrický zvukový signál na zvuk, který můžeme slyšet."
     },
     {
-        question: "Jak se vyvíjela výstupní zvuková zařízení a jaká používáme dnes?",
-        answer: "Zvuk se nejprve přehrával pomocí jednodušších reproduktorů. Postupně se rozšířily kvalitnější reproduktory, sluchátka a další zvuková zařízení."
+        question: "Jaká výstupní zařízení používáme k přehrávání zvuku a obrazu dnes?",
+        answer: "K zobrazení obrazu používáme například monitory a projektory. Ke zvukovému výstupu slouží reproduktory a sluchátka."
     }
 ];
 
@@ -76,7 +76,9 @@ function openCard(id) {
 
     currentId = id;
 
-    questionNumber.textContent = `OTÁZKA ${id + 1} / ${questions.length}`;
+    questionNumber.textContent =
+        `OTÁZKA ${id + 1} / ${questions.length}`;
+
     questionText.textContent = questions[id].question;
     answerText.textContent = questions[id].answer;
 
@@ -148,8 +150,15 @@ cards.forEach(card => {
 });
 
 showAnswerButton.addEventListener("click", showAnswer);
-correctButton.addEventListener("click", () => markAnswer(true));
-wrongButton.addEventListener("click", () => markAnswer(false));
+
+correctButton.addEventListener("click", () => {
+    markAnswer(true);
+});
+
+wrongButton.addEventListener("click", () => {
+    markAnswer(false);
+});
+
 backButton.addEventListener("click", goBack);
 restartButton.addEventListener("click", restartQuiz);
 
