@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -10,67 +10,56 @@
 
 <body>
 
-```
-<h1>Vývoj výstupních periferií</h1>
-<p class="subtitle">Vyber kartu a odpověz na otázku</p>
+    <h1>Vývoj výstupních periferií</h1>
+    <p class="subtitle">Vyber kartu a odpověz na otázku ve skupině</p>
 
-<div class="info">
-    <span>Body: <strong id="score">0</strong></span>
-    <span>Zbývá karet: <strong id="remaining">10</strong></span>
-</div>
-
-<div id="cards" class="cards">
-
-    <button class="card" data-id="0">KARTA 1</button>
-    <button class="card" data-id="1">KARTA 2</button>
-    <button class="card" data-id="2">KARTA 3</button>
-    <button class="card" data-id="3">KARTA 4</button>
-    <button class="card" data-id="4">KARTA 5</button>
-    <button class="card" data-id="5">KARTA 6</button>
-    <button class="card" data-id="6">KARTA 7</button>
-    <button class="card" data-id="7">KARTA 8</button>
-    <button class="card" data-id="8">KARTA 9</button>
-    <button class="card" data-id="9">KARTA 10</button>
-
-</div>
-
-<div id="questionBox" class="question-box hidden">
-
-    <p id="questionNumber"></p>
-
-    <h2 id="question"></h2>
-
-    <button id="showAnswer">Zobrazit odpověď</button>
-
-    <div id="answerBox" class="hidden">
-
-        <p id="answer"></p>
-
-        <button id="correct">✓ Správně</button>
-        <button id="wrong">✕ Špatně</button>
-
+    <div class="info">
+        <span>Body: <strong id="score">0</strong></span>
+        <span>Zbývá karet: <strong id="remaining">10</strong></span>
     </div>
 
-    <button id="back">← Zpět na karty</button>
+    <div id="cards" class="cards">
+        <button class="card" data-id="0">KARTA 1</button>
+        <button class="card" data-id="1">KARTA 2</button>
+        <button class="card" data-id="2">KARTA 3</button>
+        <button class="card" data-id="3">KARTA 4</button>
+        <button class="card" data-id="4">KARTA 5</button>
+        <button class="card" data-id="5">KARTA 6</button>
+        <button class="card" data-id="6">KARTA 7</button>
+        <button class="card" data-id="7">KARTA 8</button>
+        <button class="card" data-id="8">KARTA 9</button>
+        <button class="card" data-id="9">KARTA 10</button>
+    </div>
 
-</div>
+    <div id="questionBox" class="question-box hidden">
+        <p id="questionNumber"></p>
 
-<div id="finishBox" class="question-box hidden">
+        <h2 id="question"></h2>
 
-    <h2>Kvíz dokončen!</h2>
+        <button id="showAnswer">Zobrazit odpověď</button>
 
-    <p>
-        Tvoje skóre:
-        <strong id="finalScore">0</strong>
-        / 10
-    </p>
+        <div id="answerBox" class="hidden">
+            <p id="answer"></p>
 
-    <button id="restart">Hrát znovu</button>
+            <button id="correct">✓ Správně</button>
+            <button id="wrong">✕ Špatně</button>
+        </div>
 
-</div>
+        <button id="back">← Zpět na karty</button>
+    </div>
 
-<script src="script.js"></script>
-```
+    <div id="finishBox" class="question-box hidden">
+        <h2>Kvíz dokončen!</h2>
 
+        <p>
+            Tvoje skóre:
+            <strong id="finalScore">0</strong>
+            / 10
+        </p>
+
+        <button id="restart">Hrát znovu</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
