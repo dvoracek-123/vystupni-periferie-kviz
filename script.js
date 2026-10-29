@@ -1,230 +1,156 @@
+
 const questions = [
     {
-        question: "Jaký typ monitoru používal CRT technologii?",
-        answer: "CRT monitor používal elektronovou trubici. Obraz vznikal pomocí elektronového paprsku, který dopadal na luminoforovou obrazovku."
+        question: "Co jsou výstupní periferie a k čemu slouží?",
+        answer: "Jsou to zařízení, která předávají informace z počítače uživateli. Patří mezi ně například monitor, tiskárna a reproduktory."
     },
     {
-        question: "Jaká je hlavní výhoda LCD monitorů oproti CRT?",
-        answer: "LCD monitory jsou mnohem tenčí, lehčí a obvykle mají nižší spotřebu energie než CRT monitory."
+        question: "Jak se v průběhu času změnily počítačové monitory?",
+        answer: "Starší monitory používaly technologii CRT a byly velké a těžké. Později se rozšířily plošší LCD monitory a další moderní technologie."
+    },
+    {
+        question: "Jaký je rozdíl mezi CRT a LCD monitorem?",
+        answer: "CRT monitor využívá obrazovku s elektronovým paprskem a je objemný. LCD monitor vytváří obraz pomocí tekutých krystalů a je mnohem plošší."
+    },
+    {
+        question: "Jak funguje jehličková tiskárna?",
+        answer: "Tiskne pomocí malých jehliček, které přes barvicí pásku vytvářejí na papíře jednotlivé body."
+    },
+    {
+        question: "Kdo a kdy přišel s principem jehličkového tisku?",
+        answer: "Jedním z průkopníků jehličkového tisku byla společnost Epson, která v roce 1968 představila tiskárnu EP-101. Později se rozšířily jehličkové tiskárny pro počítače."
+    },
+    {
+        question: "Jak funguje inkoustová tiskárna?",
+        answer: "Vystřikuje drobné kapky inkoustu na papír a skládá z nich text nebo obrázek."
     },
     {
         question: "Jak funguje laserová tiskárna?",
-        answer: "Laserová tiskárna vytváří obraz pomocí laseru na fotocitlivém válci a následně pomocí toneru přenese obraz na papír."
+        answer: "Pomocí laseru vytvoří obraz na světlocitlivém válci. Toner se přenese na papír a následně se teplem upevní."
     },
     {
-        question: "Jaký je rozdíl mezi inkoustovou a laserovou tiskárnou?",
-        answer: "Inkoustová tiskárna používá tekutý inkoust, zatímco laserová používá toner a laserovou technologii."
+        question: "Jaký je hlavní rozdíl mezi inkoustovou a laserovou tiskárnou?",
+        answer: "Inkoustová tiskárna používá tekutý inkoust, zatímco laserová tiskárna používá práškový toner."
     },
     {
-        question: "Co znamená rozlišení monitoru například 1920 × 1080?",
-        answer: "Udává počet obrazových bodů neboli pixelů na šířku a výšku obrazu. 1920 × 1080 znamená celkem 2 073 600 pixelů."
+        question: "K čemu slouží reproduktory a jaký signál převádějí?",
+        answer: "Reproduktory slouží k přehrávání zvuku. Elektrický zvukový signál převádějí na zvuk, který slyšíme."
     },
     {
-        question: "Co je OLED displej?",
-        answer: "OLED je technologie, kde jednotlivé pixely samy vyzařují světlo. Díky tomu může mít OLED velmi hlubokou černou a vysoký kontrast."
-    },
-    {
-        question: "K čemu se používá plotter?",
-        answer: "Plotter se používá především k přesnému kreslení nebo řezání velkých výkresů, například v technickém kreslení, architektuře nebo reklamě."
-    },
-    {
-        question: "Jaká je hlavní výhoda elektronického inkoustu (E-Ink)?",
-        answer: "E-Ink spotřebovává velmi málo energie a jeho obraz je dobře čitelný i na přímém světle. Používá se například ve čtečkách elektronických knih."
-    },
-    {
-        question: "Co je 3D tiskárna?",
-        answer: "3D tiskárna vytváří skutečné trojrozměrné objekty postupným nanášením nebo zpracováním materiálu podle digitálního modelu."
-    },
-    {
-        question: "Která technologie nahradila CRT monitory jako běžné počítačové monitory?",
-        answer: "CRT monitory byly postupně nahrazeny především LCD monitory, které byly tenčí, lehčí a energeticky úspornější."
+        question: "Jak se vyvíjela výstupní zvuková zařízení a jaká používáme dnes?",
+        answer: "Zvuk se nejprve přehrával pomocí jednodušších reproduktorů. Postupně se rozšířily kvalitnější reproduktory, sluchátka a další zvuková zařízení."
     }
 ];
 
-let score = 0;
-let remaining = 10;
-let currentIndex = -1;
-let answered = false;
-
 const cards = document.querySelectorAll(".card");
-
 const cardsBox = document.getElementById("cards");
 const questionBox = document.getElementById("questionBox");
 const finishBox = document.getElementById("finishBox");
 
-const scoreElement = document.getElementById("score");
-const remainingElement = document.getElementById("remaining");
-
 const questionNumber = document.getElementById("questionNumber");
-const questionElement = document.getElementById("question");
-const answerElement = document.getElementById("answer");
+const questionText = document.getElementById("question");
+const answerText = document.getElementById("answer");
 
-const showAnswerButton = document.getElementById("showAnswer");
 const answerBox = document.getElementById("answerBox");
-
+const showAnswerButton = document.getElementById("showAnswer");
 const correctButton = document.getElementById("correct");
 const wrongButton = document.getElementById("wrong");
-
 const backButton = document.getElementById("back");
 const restartButton = document.getElementById("restart");
 
-const finalScore = document.getElementById("finalScore");
+const scoreText = document.getElementById("score");
+const remainingText = document.getElementById("remaining");
+const finalScoreText = document.getElementById("finalScore");
 
-
-/* KLIKNUTÍ NA KARTU */
-
-cards.forEach(function(card) {
-
-    card.addEventListener("click", function() {
-
-        if (card.classList.contains("used")) {
-            return;
-        }
-
-        currentIndex = Number(card.dataset.id);
-        answered = false;
-
-        const currentQuestion = questions[currentIndex];
-
-        questionNumber.textContent =
-            "Otázka " + (currentIndex + 1) + " z 10";
-
-        questionElement.textContent = currentQuestion.question;
-        answerElement.textContent = currentQuestion.answer;
-
-        cardsBox.classList.add("hidden");
-        finishBox.classList.add("hidden");
-        questionBox.classList.remove("hidden");
-
-        answerBox.classList.add("hidden");
-        showAnswerButton.classList.remove("hidden");
-
-        correctButton.classList.remove("hidden");
-        wrongButton.classList.remove("hidden");
-
-        backButton.classList.remove("hidden");
-    });
-
-});
-
-
-/* ZOBRAZIT ODPOVĚĎ */
-
-showAnswerButton.addEventListener("click", function() {
-
-    answerBox.classList.remove("hidden");
-    showAnswerButton.classList.add("hidden");
-
-});
-
-
-/* SPRÁVNĚ */
-
-correctButton.addEventListener("click", function() {
-
-    if (answered || currentIndex === -1) {
-        return;
-    }
-
-    answered = true;
-
-    score++;
-    remaining--;
-
-    updateInfo();
-
-    cards[currentIndex].classList.add("used");
-
-    finishOrContinue();
-
-});
-
-
-/* ŠPATNĚ */
-
-wrongButton.addEventListener("click", function() {
-
-    if (answered || currentIndex === -1) {
-        return;
-    }
-
-    answered = true;
-
-    remaining--;
-
-    updateInfo();
-
-    cards[currentIndex].classList.add("used");
-
-    finishOrContinue();
-
-});
-
-
-/* ZPĚT NA KARTY */
-
-backButton.addEventListener("click", function() {
-
-    currentIndex = -1;
-    answered = false;
-
-    questionBox.classList.add("hidden");
-    cardsBox.classList.remove("hidden");
-
-});
-
-
-/* AKTUALIZACE BODŮ */
+let score = 0;
+let currentId = null;
+let answered = new Set();
 
 function updateInfo() {
-
-    scoreElement.textContent = score;
-    remainingElement.textContent = remaining;
-
+    scoreText.textContent = score;
+    remainingText.textContent = questions.length - answered.size;
 }
 
+function openCard(id) {
+    if (answered.has(id)) return;
 
-/* KONEC NEBO POKRAČOVÁNÍ */
+    currentId = id;
 
-function finishOrContinue() {
+    questionNumber.textContent = `OTÁZKA ${id + 1} / ${questions.length}`;
+    questionText.textContent = questions[id].question;
+    answerText.textContent = questions[id].answer;
 
-    currentIndex = -1;
+    answerBox.classList.add("hidden");
+    showAnswerButton.classList.remove("hidden");
+
+    cardsBox.classList.add("hidden");
+    finishBox.classList.add("hidden");
+    questionBox.classList.remove("hidden");
+}
+
+function showAnswer() {
+    answerBox.classList.remove("hidden");
+    showAnswerButton.classList.add("hidden");
+}
+
+function markAnswer(isCorrect) {
+    if (currentId === null || answered.has(currentId)) return;
+
+    if (isCorrect) {
+        score++;
+    }
+
+    answered.add(currentId);
+    cards[currentId].classList.add("used");
+    cards[currentId].disabled = true;
+
+    updateInfo();
 
     questionBox.classList.add("hidden");
 
-    if (remaining === 0) {
-
-        finalScore.textContent = score;
-
-        cardsBox.classList.add("hidden");
+    if (answered.size === questions.length) {
+        finalScoreText.textContent = score;
         finishBox.classList.remove("hidden");
-
     } else {
-
         cardsBox.classList.remove("hidden");
-
     }
 
+    currentId = null;
 }
 
+function goBack() {
+    questionBox.classList.add("hidden");
+    cardsBox.classList.remove("hidden");
+    currentId = null;
+}
 
-/* HRÁT ZNOVU */
-
-restartButton.addEventListener("click", function() {
-
+function restartQuiz() {
     score = 0;
-    remaining = 10;
-    currentIndex = -1;
-    answered = false;
+    currentId = null;
+    answered.clear();
 
-    cards.forEach(function(card) {
+    cards.forEach(card => {
         card.classList.remove("used");
+        card.disabled = false;
     });
-
-    updateInfo();
 
     finishBox.classList.add("hidden");
     questionBox.classList.add("hidden");
     cardsBox.classList.remove("hidden");
 
+    updateInfo();
+}
+
+cards.forEach(card => {
+    card.addEventListener("click", () => {
+        openCard(Number(card.dataset.id));
+    });
 });
+
+showAnswerButton.addEventListener("click", showAnswer);
+correctButton.addEventListener("click", () => markAnswer(true));
+wrongButton.addEventListener("click", () => markAnswer(false));
+backButton.addEventListener("click", goBack);
+restartButton.addEventListener("click", restartQuiz);
+
+updateInfo();
