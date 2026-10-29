@@ -2,110 +2,152 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f5f6f8">
-    <title>Vývoj výstupních periferií | Třídní kvíz</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f6f8">
+  <meta name="description" content="Interaktivní třídní kvíz o vývoji výstupních periferií.">
+  <title>Vývoj výstupních periferií | Hardware přehled</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-    <header class="topbar">
-        <a class="brand" href="#" aria-label="Vývoj výstupních periferií">
-            <span class="brand-mark">HW</span>
-            <span>Hardware <span class="brand-divider">/</span> IT</span>
-        </a>
-        <span class="topbar-label">TŘÍDNÍ KVÍZ</span>
-    </header>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Hardware přehled – úvod">
+        <span class="brand-icon">H</span>
+        <span>Hardware <span class="brand-muted">/ IT</span></span>
+      </a>
+      <span class="header-label">Třídní kvíz</span>
+    </div>
+  </header>
 
-    <main class="container">
-        <section class="intro">
-            <p class="eyebrow">INTERAKTIVNÍ OPAKOVÁNÍ</p>
-            <h1>Vývoj výstupních<br class="desktop-break"> periferií</h1>
-            <p class="intro-text">
-                Vyberte kartu, společně prodiskutujte otázku a zkuste
-                najít správnou odpověď. Za každou správnou odpověď získáte bod.
+  <main class="page">
+    <section class="intro">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Interaktivní opakování</div>
+      <h1>Vývoj výstupních<br class="desktop-break"> periferií<span class="title-dot">.</span></h1>
+      <p class="intro-text">
+        Vyberte kartu, společně prodiskutujte otázku a zkuste najít správnou odpověď.
+        Za každou správnou odpověď získáte bod.
+      </p>
+      <div class="intro-meta">
+        <span><strong>15</strong> otázek</span>
+        <span class="meta-separator"></span>
+        <span>Skupinová aktivita</span>
+        <span class="meta-separator"></span>
+        <span>Hardware a IT</span>
+      </div>
+    </section>
+
+    <section class="quiz-layout" aria-label="Interaktivní kvíz">
+      <aside class="sidebar">
+        <div class="score-card">
+          <span class="card-label">Získané body</span>
+          <div class="score-line">
+            <span id="score">0</span>
+            <span class="score-total">/ 15</span>
+          </div>
+          <div class="score-track">
+            <div id="score-fill" class="score-fill"></div>
+          </div>
+          <p id="score-caption">Zatím žádná zodpovězená otázka.</p>
+        </div>
+
+        <div class="question-nav">
+          <div class="nav-heading">
+            <span>Otázky</span>
+            <span id="nav-count">0 / 15</span>
+          </div>
+          <div id="question-list" class="question-list"></div>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <article id="question-card" class="question-card">
+          <div class="question-top">
+            <span id="question-category" class="category-tag">Základy</span>
+            <span id="question-number" class="question-number">OTÁZKA 01 / 15</span>
+          </div>
+
+          <div class="question-content">
+            <div class="question-symbol" id="question-symbol">01</div>
+            <h2 id="question-title">Co jsou výstupní periferie?</h2>
+            <p id="question-description">
+              Nejdříve se poraďte ve skupině. Odpověď odhalte až poté, co se společně domluvíte.
             </p>
-        </section>
+          </div>
 
-        <section class="score-panel" aria-label="Průběh kvízu">
-            <div class="score-item">
-                <span class="stat-label">Získané body</span>
-                <strong id="score">0 <span>/ 15</span></strong>
-            </div>
-
-            <div class="score-item score-right">
-                <span class="stat-label">Zbývá otázek</span>
-                <strong id="remaining">15</strong>
-            </div>
-
-            <div class="progress-track">
-                <div id="progressBar" class="progress-bar"></div>
-            </div>
-        </section>
-
-        <section id="cards" class="cards" aria-label="Výběr otázky">
-            <button class="card" data-id="0"><span class="card-number">01</span><span class="card-title">Základy</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="1"><span class="card-number">02</span><span class="card-title">Monitory</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="2"><span class="card-number">03</span><span class="card-title">Technologie CRT a LCD</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="3"><span class="card-number">04</span><span class="card-title">LED displeje</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="4"><span class="card-number">05</span><span class="card-title">Rozlišení obrazu</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="5"><span class="card-number">06</span><span class="card-title">Projektory</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="6"><span class="card-number">07</span><span class="card-title">Jehličkové tiskárny</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="7"><span class="card-number">08</span><span class="card-title">Inkoustové tiskárny</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="8"><span class="card-number">09</span><span class="card-title">Laserové tiskárny</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="9"><span class="card-number">10</span><span class="card-title">Typy tisku</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="10"><span class="card-number">11</span><span class="card-title">Zvukový výstup</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="11"><span class="card-number">12</span><span class="card-title">Sluchátka</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="12"><span class="card-number">13</span><span class="card-title">Vývoj zařízení</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="13"><span class="card-number">14</span><span class="card-title">Použití v praxi</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-            <button class="card" data-id="14"><span class="card-number">15</span><span class="card-title">Závěrečné opakování</span><span class="card-bottom">Otevřít otázku <span>↗</span></span></button>
-        </section>
-
-        <section id="questionBox" class="question-box hidden" aria-live="polite">
-            <p id="questionNumber" class="eyebrow"></p>
-            <h2 id="question"></h2>
-
-            <p class="discussion-hint">
-                Nejdříve se poraďte ve skupině. Odpověď odhalte až poté,
-                co se společně domluvíte.
-            </p>
-
-            <button id="showAnswer" class="button button-primary">
-                Zobrazit odpověď <span>→</span>
+          <div class="answer-area">
+            <button id="reveal-button" class="button button-primary" type="button">
+              Zobrazit odpověď <span aria-hidden="true">→</span>
             </button>
 
-            <div id="answerBox" class="answer-box hidden">
-                <p class="answer-label">VZOROVÁ ODPOVĚĎ</p>
-                <p id="answer" class="answer-text"></p>
-
-                <p class="judge-label">Odpověděla skupina správně?</p>
-                <div class="judge-buttons">
-                    <button id="correct" class="button button-correct">✓ Správně · +1 bod</button>
-                    <button id="wrong" class="button button-wrong">✕ Špatně · 0 bodů</button>
+            <div id="answer-panel" class="answer-panel" hidden>
+              <div class="answer-heading">
+                <span class="answer-check">✓</span>
+                <span>Vzorová odpověď</span>
+              </div>
+              <p id="answer-text"></p>
+              <div class="answer-actions">
+                <p>Odpověděla skupina správně?</p>
+                <div class="answer-buttons">
+                  <button id="correct-button" class="button button-correct" type="button">
+                    ✓ Správně · +1 bod
+                  </button>
+                  <button id="incorrect-button" class="button button-secondary" type="button">
+                    ✕ Špatně · 0 bodů
+                  </button>
                 </div>
+              </div>
             </div>
+          </div>
 
-            <button id="back" class="back-button">← Zpět na výběr otázek</button>
-        </section>
+          <div class="card-footer">
+            <span id="question-status">Připraveno k diskuzi</span>
+            <span>Glossary / Hardware</span>
+          </div>
+        </article>
 
-        <section id="finishBox" class="finish-box hidden" aria-live="polite">
-            <p class="eyebrow">KONEC KVÍZU</p>
-            <h2>Kvíz dokončen.</h2>
-            <p class="finish-description">Všechny otázky byly zodpovězeny.</p>
-            <div class="final-score">
-                <span>Výsledné skóre</span>
-                <strong id="finalScore">0 / 15</strong>
-                <p id="resultMessage"></p>
+        <div class="bottom-navigation">
+          <button id="previous-button" class="button button-secondary" type="button" disabled>
+            ← Předchozí
+          </button>
+          <span id="position-label">01 z 15</span>
+          <button id="next-button" class="button button-primary" type="button">
+            Další otázka →
+          </button>
+        </div>
+
+        <section id="finish-panel" class="finish-panel" hidden>
+          <div class="finish-icon">✓</div>
+          <span class="eyebrow">Konec kvízu</span>
+          <h2 id="finish-title">Kvíz dokončen.</h2>
+          <p id="finish-text"></p>
+          <div class="finish-stats">
+            <div>
+              <strong id="final-score">0 / 15</strong>
+              <span>Získané body</span>
             </div>
-            <button id="restart" class="button button-primary">Hrát znovu ↻</button>
+            <div>
+              <strong id="final-percent">0 %</strong>
+              <span>Úspěšnost</span>
+            </div>
+          </div>
+          <button id="restart-button" class="button button-primary" type="button">
+            Zopakovat kvíz ↻
+          </button>
         </section>
+      </div>
+    </section>
 
-        <footer class="footer">
-            <span>HARDWARE · VÝSTUPNÍ PERIFERIE</span>
-            <span>15 OTÁZEK</span>
-        </footer>
-    </main>
+    <footer class="site-footer">
+      <span>HARDWARE PŘEHLED <span class="footer-dot">/</span> IT</span>
+      <span>Výukový materiál · 2026</span>
+    </footer>
+  </main>
 </body>
 </html>
